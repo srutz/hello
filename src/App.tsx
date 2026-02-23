@@ -1,7 +1,13 @@
+import { Counter } from "./Counter"
 
 export function App() {
   return (
-    <div className="w-screen h-screen bg-white">hello</div>
+    <div className="w-screen h-screen bg-white">
+      <Counter></Counter>
+      <Counter></Counter>
+      <Counter></Counter>
+      <Counter></Counter>
+    </div>
   )
 }
 
