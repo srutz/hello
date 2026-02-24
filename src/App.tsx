@@ -1,47 +1,52 @@
-import { useState, type ComponentProps, type ComponentPropsWithoutRef, type MouseEvent, type ReactNode } from "react"
-import { cn } from "./util"
+import { useEffect, useState, type ComponentProps, type ComponentPropsWithoutRef, type MouseEvent, type ReactNode } from "react"
+import { useQuote } from "./hooks/useQuote"
+import { useQueryClient } from "@tanstack/react-query"
+
 
 export default App
+
+async function delay(delay: ms) {
+  return new Promise(resolve => setTimeout(resolve, delay))
+}
+
+export type Quote = { id: number, author: string, quote: string }
 
 
 
 export function App() {
-  const [cities, setCities] = useState<string[]>([])
-  const handleClick = () => {
-    setCities([ "london", "paris", "amsterdam" ])
-  }
+  const [ qid, setQid] = useState(3)
+  const { data: quote, isLoading, error } = useQuote(qid)
+
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    for (let id = 1; id < 30; id++) {
+      queryClient.prefetchQuery({
+        queryKey: ["quote", id],
+        queryFn: async() => {
+                const response = await fetch("https://dummyjson.com/quotes/" 
+              + encodeURIComponent(id))
+          return await response.json() as Quote
+        }
+      })
+    }
+  }, [])
 
   return (
-    <div className="w-screen h-screen bg-white flex 
-        flex-col items-center" onClick={handleClick}>
-      <Box className="text-green-600 shadow-sm font-bold" title="hello"
-        >
-          <H1 className="text-lg">Städte</H1>
-          {cities.map((city) => (<div>{city}</div>))}
-      </Box>
+    <div className="p-3">
+      <button onClick={() => setQid(qid - 1)}>Prev</button>
+      <button onClick={() => setQid(qid + 1)}>Next</button>
+      {error && <div>{error?.toString()}</div>}
+      {isLoading && <div>Loading</div>}
+      {quote && !isLoading && <QuoteView quote={quote} />}
     </div>
   )
 }
 
-/* Komponente die von außen ansteuerbar ist */
-function Box({ children, className, ...props }
-  : 
-  { children?: ReactNode} & ComponentProps<"input">) 
-{
+function QuoteView({ quote }: { quote: Quote }) {
   return (
-    <div className={cn(
-        "bg-zinc-200 rounded-xl p-2 m-2 border border-zinc-400 shadow-xl",
-        className)}
-      {...props}
-      >
-        {children}
+    <div className="flex flex-col gap-1 bg-zinc-200 p-2 shadow-xl">
+      <div>{quote.quote}</div>
+      <div>{quote.author}</div>
     </div>
-  )
-}
-
-function H1({children, className, ...rest} 
-  : { children: ReactNode} & ComponentProps<"h1">) {
-  return (
-    <h1 className={cn("text-4xl", className)} {...rest}>{children}</h1>
   )
 }
