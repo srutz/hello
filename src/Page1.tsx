@@ -1,39 +1,40 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
+import { useFormStore } from "./hooks/useFormStore"
 
 export function Page1() {
     const [ emailChanged, setEmailChanged] = useState(false)
 
-    const [ email, setEmail] = useState("");
-    const [ phone, setPhone ] = useState("")
-    
-    useEffect(() => {
-        console.log("page1 mounted")
-        return () => {
-            console.log("page1 unmounted")
-        }
-    }, [])
+    const { form, setForm } = useFormStore();
+    console.log("Page1 rendered")
+
     return (
         <div className="flex flex-col gap-1 p-2">
             <div className="flex gap-1 items-baseline">
                 <label className="w-48" htmlFor="phone">E-Mail</label>
                 <input placeholder = "Your mail" 
                     onChange={(e) => {
-                        setEmail(e.target.value)
+                        const newForm = structuredClone(form);
+                        newForm.email = e.target.value;
+                        setForm(newForm);
                         setEmailChanged(true)
                     }}
                     type="email"
-                    id="email" value={email}></input>
+                    id="email" value={form.email}></input>
             </div>
-            {emailChanged && !email.includes("@") && (
+            {emailChanged && !form.email.includes("@") && (
                 <div className="text-red-400">
                     Invalid E-Mail
                 </div>)}
             <div className="flex gap-1 items-baseline">
                 <label className="w-48" htmlFor="phone">Phone</label>
                 <input placeholder = "Your number" 
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => setForm({
+                        ...form,
+                        phone: e.target.value
+                    })
+                    }
                     type="tel"
-                    id="phone" value={phone}></input>
+                    id="phone" value={form.phone}></input>
             </div>
         </div>
     )
