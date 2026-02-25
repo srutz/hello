@@ -1,36 +1,28 @@
-import { useEffect, useState, type ComponentProps, type ComponentPropsWithoutRef, type MouseEvent, type ReactNode } from "react"
+import { useState } from "react"
 import { useQuote } from "./hooks/useQuote"
-import { useQueryClient } from "@tanstack/react-query"
+import { usePrefetchQuotes } from "./hooks/usePrefetchQuotes"
 
 
 export default App
 
-async function delay(delay: ms) {
-  return new Promise(resolve => setTimeout(resolve, delay))
-}
-
 export type Quote = { id: number, author: string, quote: string }
 
+
+// www.meineseite.de/quotes?id=1
+// www.meineseite.de/quotes/1/details
+
+/*
+ * React SSR Frameworks:
+ * Next.js
+ * Tanstack Start
+ * React Router 7 im Framework-Mode (früher Remix)
+ */
 
 
 export function App() {
   const [ qid, setQid] = useState(3)
   const { data: quote, isLoading, error } = useQuote(qid)
-
-  const queryClient = useQueryClient();
-  useEffect(() => {
-    for (let id = 1; id < 30; id++) {
-      queryClient.prefetchQuery({
-        queryKey: ["quote", id],
-        queryFn: async() => {
-                const response = await fetch("https://dummyjson.com/quotes/" 
-              + encodeURIComponent(id))
-          return await response.json() as Quote
-        }
-      })
-    }
-  }, [])
-
+  usePrefetchQuotes(50)
   return (
     <div className="p-3">
       <button onClick={() => setQid(qid - 1)}>Prev</button>
