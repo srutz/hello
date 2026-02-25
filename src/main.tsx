@@ -1,71 +1,23 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { createBrowserRouter, NavLink, Outlet, RouterProvider, useLocation, useNavigate } from 'react-router'
-import { Suspense, lazy, useEffect } from 'react'
+import { createBrowserRouter, RouterProvider } from 'react-router'
+import { Main } from './App.tsx'
+import { Page1 } from './Page1.tsx'
+import { Page2 } from './Page2.tsx'
+import { Page3 } from './Page3.tsx'
 
 const queryClient = new QueryClient()
-const App = lazy(() => import('./App.tsx'))
 
 const router = createBrowserRouter([
     { path: "/", element: <Main></Main>, children: [
-        { 
-            path: "/quote/:id", 
-            element: (
-                <Suspense fallback={<div className="p-8">Loading...</div>}>
-                    <App></App>
-                </Suspense>
-            ),
-        },
+        { path: "/page1", element: <Page1></Page1> },
+        { path: "/page2", element: <Page2></Page2> },
+        { path: "/page3", element: <Page3></Page3> },
         { path: "*", element: <div className="p-8">Seite nicht gefunden.</div>},
     ] },
 ])
 
-
-function Main() {
-    return (
-        <div className="w-screen h-screen flex flex-col ">
-            <Menubar></Menubar>
-            <Outlet></Outlet>
-        </div>
-    )
-}
-
-function useBillGates() {
-    const { pathname } = useLocation();
-    useEffect(() => {
-        if (pathname.endsWith("/4")) {
-            alert("bill gates achtung")
-        }
-    }, [pathname]);
-}
-
-function useLoginRedirect() {
-    const navigate = useNavigate()
-    const { pathname } = useLocation();
-    const loggedIn = false
-    useEffect(() => {
-        if (!loggedIn && pathname !== "/login") {
-            navigate("/login")
-        }
-    }, [pathname, loggedIn, navigate]);
-}
-
-function Menubar() {
-    const { pathname } = useLocation();
-    useBillGates();
-    return (
-        <div className="flex h-12 bg-zinc-100 px-2 items-center border-b border-gray-300 gap-2">
-            <div className="mr-8">HELLO APP</div>
-            <NavLink to="/quote/1">Quote 1</NavLink>
-            <NavLink to="/quote/2">Quote 2</NavLink>
-            <NavLink to="/quote/3">Quote 3</NavLink>
-            <NavLink to="/quote/4">Quote 4</NavLink>
-            <div className="grow"></div>
-            <div>{pathname}</div>
-        </div>
-    )
-}
 
 const root = createRoot(document.getElementById('root')!)
 const all = (
