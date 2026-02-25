@@ -1,4 +1,4 @@
-import { Form } from "./Form"
+import { Form2 } from "./Form2"
 
 
 export default App
@@ -7,7 +7,7 @@ export default App
 export function App() {
   return (
     <div className="p-3">
-      <Form></Form>
+      <Form2></Form2>
     </div>
   )
 }
