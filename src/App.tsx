@@ -23,7 +23,7 @@ export function Menubar() {
             <div className="mr-8">FORM APP</div>
             <NavLink to="/page1">Page 1</NavLink>
             <NavLink to="/page2">Page 2</NavLink>
-            <NavLink to="/page3">Page1 3</NavLink>
+            <NavLink to="/page3">Page 3</NavLink>
         </div>
     )
 }
