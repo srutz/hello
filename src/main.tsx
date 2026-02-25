@@ -7,10 +7,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router'
 const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
-    {
-        path: "/quote/:id",
-        element: <App></App>
-    }
+    { path: "/quote/:id", element: <App></App> }
 ])
 
 const root = createRoot(document.getElementById('root')!)

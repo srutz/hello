@@ -1,5 +1,5 @@
 @import "tailwindcss";
 
 button {
-    @apply my-1 bg-blue-500 hover:bg-blue-600 border border-black text-white rounded-xl px-2 py-1;
+    @apply my-1 bg-blue-500 hover:bg-blue-600 border border-blue-300 min-w-[120px] text-white rounded-sm px-4 py-1;
 }

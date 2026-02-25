@@ -34,6 +34,7 @@ export function useQuote(qid: number) {
             + encodeURIComponent(qid))
         return await response.json() as Quote
     },
+    placeholderData: prevData => prevData,
     staleTime: 60_000,  
   })
 }
