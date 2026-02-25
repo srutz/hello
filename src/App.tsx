@@ -1,8 +1,12 @@
-import { useState } from "react"
 import { useQuote } from "./hooks/useQuote"
 import { usePrefetchQuotes } from "./hooks/usePrefetchQuotes"
-import { useNavigate, useNavigation, useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 
+
+console.log("HUHUHUHHUUHUHUHUH")
+console.log("HUHUHUHHUUHUHUHUH")
+console.log("HUHUHUHHUUHUHUHUH")
+console.log("HUHUHUHHUUHUHUHUH")
 
 export default App
 
