@@ -10,6 +10,7 @@ export type Quote = { id: number, author: string, quote: string }
 
 // www.meineseite.de/quotes?id=1
 // www.meineseite.de/quotes/1/details
+// www.meineseite.de/#/quotes/1/details
 
 /*
  * React SSR Frameworks:
