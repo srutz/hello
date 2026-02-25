@@ -11,3 +11,7 @@ a {
 .active {
     @apply font-bold;
 }
+
+input {
+    @apply border border-gray-200 px-2 py-1 bg-gray-100
+}
